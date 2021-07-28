@@ -11,14 +11,20 @@ package com.hemebiotech.analytics;
 	import java.io.FileWriter;
 	import java.io.IOException;
 	import java.io.PrintWriter;
-	import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 	import java.util.TreeMap;
 
 	public class ReadSymptomDataFromFile implements ISymptomReader {
 		
 		private String filepath;
-		Map<Integer,String> result = new TreeMap<Integer,String>();
+		List<Integer> occurrences = new ArrayList<Integer>();
+		List<String> symptoms = new ArrayList<String>();
 		Map<String,Integer> result1 = new TreeMap<String,Integer>();
+		
+		ArrayList<String> result = new ArrayList<String>();
+
 		
 		
 		
@@ -32,18 +38,18 @@ package com.hemebiotech.analytics;
 		 * the Getsymptoms() method allows the program to read external files and save them in an ArrayList
 		 */
 		@Override
-		public Map<Integer, String> GetSymptoms0() {
-			if(filepath!= null) {
+		public List<String> GetSymptoms() {
+			if (filepath != null) {
 				try {
-					BufferedReader reader = new BufferedReader(new FileReader(filepath));
+					BufferedReader reader = new BufferedReader (new FileReader(filepath));
 					String line = reader.readLine();
-				Integer x =0;
-					while(line!=null) {
-						result.put(x, line);
-						line=reader.readLine();
-						x++;
+					
+					while (line != null) {
+						result.add(line);
+						line = reader.readLine();
 					}
 					reader.close();
+					
 					
 				} catch (FileNotFoundException e) {
 					
@@ -51,53 +57,65 @@ package com.hemebiotech.analytics;
 				} catch(IOException e) {
 					System.out.println("a problem occurred when the tomporary drive was closed");
 				}
-									}
-							return result;
-					}
+				 
+									}	
+			return result;
+		}
 		
-		
+
 		/**
-		 * valueofsymptoms() allows the program to count the number of times n symptom is repeated
+		 * valueOfsymptoms() allows the program to count the number of times n symptom is repeated
 		 */
 		@Override
 		public void valueOfSymptoms() {
-			for(String res : result.values())
-			{			Integer y = 0;
-				for(String res1 : result.values())
+
+			for(String s : result) {
+				if (symptoms.contains(s))
 				{
-					if(res1.contentEquals(res)) {
-						y++;
-					}
+					int n = symptoms.indexOf(s);
+	                
+					occurrences.set(n, occurrences.get(n)+1);				
 				}
-				result1.put(res,y);
-			}		System.out.println("result1: "+result1);
+				else
+				{
+					symptoms.add(s);
+					occurrences.add(1);
+				}
+			}
+			
+			for(int i = 0; i < symptoms.size(); i++)
+			{
+	 
+			result1.put(symptoms.get(i) ,occurrences.get(i));
+			   
 		}
+			}
 		
-		
+
 		/**
 		 * The fileResultOut() method allows the program to create and write a file named result.out
 		 */
 		@Override
 		public void fileResultOut() {
-			try{
-				PrintWriter writer = new PrintWriter(new FileWriter("result.out"));
+			
+			try {
+				PrintWriter writer = new PrintWriter(new FileWriter("result1.out"));
 				
 				for(Map.Entry<String, Integer> m : result1.entrySet()) {
 					if(m.getKey() != null) {
 						String symptom = m.getKey();
-						int value = m.getValue();
+						int value = m.getValue();					
 							writer.println(symptom+" = "+value);
-						
-							}
+					}
 				}
-				writer.close();
-				
-			}catch(IOException e) {
+			          writer.close();
+			} catch (IOException e) {
+			
 				System.out.println("a problem occurred when closing PrintWriter");
-				}
+			}
+		
 			
 		}
-
 		
 		
 	}
