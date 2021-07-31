@@ -68,7 +68,7 @@ import java.util.Map;
 			
 			for(String s : result) {
 				result1.put(s, Collections.frequency(result, s));
-				
+			
 			}
 		}
 		

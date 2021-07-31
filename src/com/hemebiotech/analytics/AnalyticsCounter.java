@@ -9,5 +9,6 @@ public class AnalyticsCounter {
 		rsdff.GetSymptoms();
 		rsdff.valueOfSymptoms();
 		rsdff.fileResultOut();
+		
 		}
 }
