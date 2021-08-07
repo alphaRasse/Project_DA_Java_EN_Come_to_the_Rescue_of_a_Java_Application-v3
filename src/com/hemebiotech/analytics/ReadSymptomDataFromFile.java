@@ -21,7 +21,7 @@ import java.util.Map;
 		
 		private String filepath;
 		ArrayList<String> result = new ArrayList<String>();
-		Map<String,Integer> result1 = new TreeMap<String,Integer>();
+		
 				
 
 		public ReadSymptomDataFromFile(String filepath) {
@@ -33,7 +33,7 @@ import java.util.Map;
 		 * the Getsymptoms() method allows the program to read external files and save them in an ArrayList
 		 */
 		@Override
-		public List<String> GetSymptoms() {
+		public List<String> getSymptoms() {
 			if (filepath != null) {
 				try {
 					BufferedReader reader = new BufferedReader (new FileReader(filepath));
@@ -57,45 +57,8 @@ import java.util.Map;
 		}
 		
 		
-		/**
-		 * valueofsymptoms() allows the program to count the number of times n symptom is repeated
-		 */
-		@Override
-		public void valueOfSymptoms() {
-			/**
-			 *  enregister les elements du tableau[] dans la treemap avec la methode frequency 
-			 */
-			
-			for(String s : result) {
-				result1.put(s, Collections.frequency(result, s));
-			
-			}
-		}
 		
 		
-		/**
-		 * The fileResultOut() method allows the program to create and write a file named result.out
-		 */
-		@Override
-		public void fileResultOut() {
-			PrintWriter writer;
-			try {
-				writer = new PrintWriter(new FileWriter("result2.out"));
-				
-				for(Map.Entry<String, Integer> m : result1.entrySet()) {
-					if(m.getKey() != null) {
-						String symptom = m.getKey();
-						int value = m.getValue();
-							writer.println(symptom+" = "+value);
-					}
-				}
-			          writer.close();
-			} catch (IOException e) {
-			
-				System.out.println("a problem occurred when closing PrintWriter");
-			}
-			
-		}
 
 
 		
